@@ -7,6 +7,7 @@ import {
   SettingOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [current, setCurrent] = useState("home");
@@ -24,7 +25,9 @@ const Header = () => {
     >
       {/* Gauche */}
       <Item key="home" icon={<AppstoreOutlined />}>
-        Home
+        <Link to="/" style={{ textDecoration: "none" }}>
+            Home
+        </Link>
       </Item>
 
       <Menu.SubMenu key="SubMenu" title="Username" icon={<SettingOutlined />}>
@@ -38,10 +41,14 @@ const Header = () => {
 
       {/* Droite → on pousse Register avec ml-auto */}
       <Item key="register" icon={<UserAddOutlined />} className="ml-auto">
-        Register
+        <Link to="/register" className="text-decoration-none" style={{ textDecoration: "none" }}>
+            Register
+        </Link>
       </Item>
       <Item key="login" icon={<UserOutlined />}>
-        Login
+        <Link to="/login" style={{ textDecoration: "none" }}>
+            Login
+        </Link>
       </Item>
     </Menu>
   );
