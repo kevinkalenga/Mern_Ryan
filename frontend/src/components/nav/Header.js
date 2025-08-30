@@ -1,32 +1,52 @@
-import { Menu } from 'antd';
-import { useState } from 'react';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 
+import { Menu } from "antd";
+import { useState } from "react";
+import {
+  UserOutlined,
+  AppstoreOutlined,
+  SettingOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 
 const Header = () => {
-  
-  const {SubMenu} = Menu
-  const [current, setCurrent] = useState('');
-  
-  const handleClick = () => {
+  const [current, setCurrent] = useState("home");
+  const {SubMenu, Item} = Menu
+  const handleClick = (e) => {
+    setCurrent(e.key);
+  };
 
-  }
+  return (
+    <Menu
+      onClick={handleClick}
+      mode="horizontal"
+      selectedKeys={[current]}
+      style={{ display: "flex" }}
+    >
+      {/* Gauche */}
+      <Item key="home" icon={<AppstoreOutlined />}>
+        Home
+      </Item>
 
-return (
- <Menu onClick={handleClick} mode="horizontal" defaultSelectedKeys={[current]}>
-    <Menu.Item key="mail" icon={<MailOutlined />}>
-      Home
-    </Menu.Item>
-    <Menu.SubMenu key="SubMenu" title="Register" icon={<SettingOutlined />}>
-        <Menu.Item key="four" icon={<AppstoreOutlined />}>
+      <Menu.SubMenu key="SubMenu" title="Username" icon={<SettingOutlined />}>
+        <Item key="four" icon={<AppstoreOutlined />}>
           Navigation Four
-        </Menu.Item>
-        <Menu.Item key="five" icon={<AppstoreOutlined />}>
+        </Item>
+        <Item key="five" icon={<AppstoreOutlined />}>
           Navigation Five
-        </Menu.Item>
-    </Menu.SubMenu>
-  </Menu>
-  )
-}
+        </Item>
+      </Menu.SubMenu>
 
-export default Header
+      {/* Droite → on pousse Register avec ml-auto */}
+      <Item key="register" icon={<UserAddOutlined />} className="ml-auto">
+        Register
+      </Item>
+      <Item key="login" icon={<UserOutlined />}>
+        Login
+      </Item>
+    </Menu>
+  );
+};
+
+export default Header;
+
+
