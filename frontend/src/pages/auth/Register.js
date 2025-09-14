@@ -1,36 +1,65 @@
+
+
 import React, { useState } from 'react'
+import { auth } from '../../firebase'
+import { sendSignInLinkToEmail } from "firebase/auth"
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Register = () => {
-  
   const [email, setEmail] = useState("")
-  
-  const handleSubmit = () => {
 
-  } 
-  
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const config = {
+      url: 'http://localhost:3000/register/complete', // redirection après clic sur le lien
+      handleCodeInApp: true
+    }
+
+    try {
+      await sendSignInLinkToEmail(auth, email, config)
+
+      toast.success(
+        `Email sent to ${email}. Click the link to complete your registration.`
+      )
+
+      // Sauvegarde dans localStorage
+      window.localStorage.setItem("emailForRegistration", email)
+
+      // Réinitialisation du champ
+      setEmail("")
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du mail:", error)
+      toast.error(error.message)
+    }
+  }
+
   const registerForm = () => (
     <form onSubmit={handleSubmit}>
-       <input type="email" className='form-control'
-        value={email} onChange={(e) => setEmail(e.target.value)}
+      <input
+        type="email"
+        className="form-control"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         autoFocus
-        />
-        <button type='submit' className='btn btn-raised'>Register</button>
+      />
+      <button type="submit" className="btn btn-raised">Register</button>
     </form>
-  
-) 
-  
+  )
+
   return (
-    <div className='container p-5'>
-        <div className='row'>
-            <div className='col-md-6 offset-md-3'>
-                <h4>Register</h4>
-                {registerForm()}
-            </div>
+    <div className="container p-5">
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <h4>Register</h4>
+          <ToastContainer />
+          {registerForm()}
         </div>
+      </div>
     </div>
   )
 }
 
 export default Register
-
 
